@@ -6,11 +6,11 @@ import { IShortcut, IActiveListeners } from "./interface";
   selector: "[appKeyShortcut]",
 })
 export class KeyShortcutDirective implements OnInit, OnDestroy {
-  private _registeredListeners;
-  private _disable: boolean;
+  private _registeredListeners; //listener reference to deregister key shortcuts
+  private _disable: boolean; //enable disable directive while component is still mounted
 
-  @Input("shortcuts") shortcuts: IShortcut[];
-  @Input("name") name: string;
+  @Input("shortcuts") shortcuts: IShortcut[]; //list of shortcuts
+  @Input("name") name: string; //unique name of the component
 
   @Input("disable") set disable(val: boolean) {
     this._disable = val;
@@ -27,7 +27,9 @@ export class KeyShortcutDirective implements OnInit, OnDestroy {
   }
 
   private registerShortcuts() {
-    const listener = this.keyShortcutService.listener;
+    if (!this.shortcuts) return;
+
+    const listener = this.keyShortcutService.listener; //get singleton listener reference
     const listenersForLib = this.shortcuts.map((shortcut) => ({
       keys: shortcut.keys,
       on_keydown: () => {
@@ -40,6 +42,7 @@ export class KeyShortcutDirective implements OnInit, OnDestroy {
   }
 
   private addListener() {
+    //add to service so that it's globally available for summary comp
     const listeners: IActiveListeners = {
       name: this.name,
       shortcuts: this.shortcuts.map((shortcut) => ({
@@ -51,6 +54,7 @@ export class KeyShortcutDirective implements OnInit, OnDestroy {
   }
 
   private removeListener() {
+    //remove from service and unregister from the lib as well
     this.keyShortcutService.removeListener(this.name);
     if (this._registeredListeners) {
       const listener = this.keyShortcutService.listener;

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { IShortcut } from "src/app/key-shortcut/interface";
 
 @Component({

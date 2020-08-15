@@ -9,7 +9,7 @@ export class KeyShortcutService {
   private _listener: any;
 
   private availableListeners: IActiveListeners[] = [];
-  activeListeners: BehaviorSubject<IActiveListeners[]> = new BehaviorSubject(
+  activeListeners$: BehaviorSubject<IActiveListeners[]> = new BehaviorSubject(
     []
   );
 
@@ -42,6 +42,6 @@ export class KeyShortcutService {
   }
 
   private emitListener() {
-    this.activeListeners.next(this.availableListeners);
+    this.activeListeners$.next(this.availableListeners);
   }
 }

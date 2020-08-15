@@ -3,7 +3,7 @@
   Summary
   <div
     *ngFor="
-      let item of keyShortcutService.activeListeners | async;
+      let item of keyShortcutService.activeListeners$ | async;
       trackBy: trackByValue
     "
   >
