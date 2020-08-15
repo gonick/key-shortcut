@@ -6,16 +6,16 @@ This library contains directives to enable keyboard shortcuts.
 
 # Usage
 
-In your angular component add the directive `keyshortcut` to enable the plugin
+In your angular component add the directive `appKeyShortcut` to enable the plugin
 
 ```
 <div>
 
 <Child
-keyshortcut
-[shortcuts]="shortcutsForComp1"
+appKeyShortcut
+[shortcuts]="shortcuts" // IShortcut[]. array of type IShortcut
 [disable]="true" // a variable to control state (optional). Default is false
-name="Child" // name
+name="Child" // name, to uniquly identify the comp
 >
 </Child>
 
@@ -35,12 +35,15 @@ IShortcut {
 }
 ```
 
+disable parameter allows you to disable/enable the directive while the component is still mounted.
+
 # Active Shortcuts
 
 List of Active shortcuts can be accessed through the service that is exposed by the directive.
+The response form the observable is of type IActiveShortcuts[]. It is an array of all the available listeners.
 
 ```
-shortcutService.getActiveShortcuts()  // observable that emits the updated list of shortcuts
+shortcutService.activeListeners$  // observable that emits the updated list of shortcuts
 
 IActiveShortcuts {
   name:string,
@@ -48,5 +51,5 @@ IActiveShortcuts {
     description: string,
     keys: string
   }]
-}[]
+}
 ```
