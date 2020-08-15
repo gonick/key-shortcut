@@ -1,0 +1,18 @@
+<hr />
+<div>
+  Summary
+  <div
+    *ngFor="
+      let item of keyShortcutService.activeListeners | async;
+      trackBy: trackByValue
+    "
+  >
+    <h4>{{ item.name }}</h4>
+    <ul>
+      <li *ngFor="let shortcut of item.shortcuts">
+        <b>Keys</b> : {{ shortcut.keys }}
+        <p>{{ shortcut.description }}</p>
+      </li>
+    </ul>
+  </div>
+</div>

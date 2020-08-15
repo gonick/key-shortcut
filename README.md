@@ -2,26 +2,51 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
 
-## Development server
+This library contains directives to enable keyboard shortcuts.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Usage
 
-## Code scaffolding
+In your angular component add the directive `keyshortcut` to enable the plugin
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+<div>
 
-## Build
+<Child
+keyshortcut
+[shortcuts]="shortcutsForComp1"
+[disable]="true" // a variable to control state (optional). Default is false
+name="Child" // name
+>
+</Child>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+</div>
 
-## Running unit tests
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# inputs
 
-## Running end-to-end tests
+Shortcuts is an array which allows you to register multiple shortcuts and their callback for components. Shortcut interface looks like as follows
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+IShortcut {
+  description : string // description of the shortcut keys
+  keys: string // eg 'ctrl s'
+  callback: ()=>void // callback function
+}
+```
 
-## Further help
+# Active Shortcuts
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+List of Active shortcuts can be accessed through the service that is exposed by the directive.
+
+```
+shortcutService.getActiveShortcuts()  // observable that emits the updated list of shortcuts
+
+IActiveShortcuts {
+  name:string,
+  shortcuts: [{
+    description: string,
+    keys: string
+  }]
+}[]
+```
